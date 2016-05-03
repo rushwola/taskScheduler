@@ -33,11 +33,7 @@ public class CollectJob implements Job, InterruptableJob {
 			String taskCalssname = task.getClass().getName();
 			String caculateClassName = caculateMap.get(taskCalssname);
 			if (caculateClassName != null) {
-				if(!task.taskStartSyn()){
-					//如果没有得到锁
-					logger.info(task.getTaskId()+" 正在运行!!,下个周期再运行");
-					return ;
-				}
+			
 				Class<?> classtemp=Class.forName(caculateClassName);
 				ICalculator obj = (ICalculator) classtemp.newInstance();
 				obj.caculate(task);
@@ -45,7 +41,7 @@ public class CollectJob implements Job, InterruptableJob {
 		} catch (Throwable e) {
 			logger.error(e, e);
 		}finally{
-			task.taskEndSyn();
+		
 		}
 		// ExecutorService exec = Executors.newCachedThreadPool();
 		// for (Iterator<ICalculator> iter = jobList.iterator();
